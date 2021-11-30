@@ -1,0 +1,39 @@
+There are two methods/algorithms included in this current push:
+  1) autoencoder-runfile.py
+     an artificial neural network (ANN) architecture known as an 
+     autoencoder that  takes in an image and then outputs 
+     its "denoised" version.
+     -> 2-autoencoder-32-32.ipynb
+        this is a notebook that has training/testing data for the ANN
+     -> the algorithm's data file is stored as a git large-file (git lfs).
+        I'm not sure, but I believe you would use:
+                 git lfs migrate export -I "*.data-00000-of-00001"
+        to convert the autoencoder's data file into a file readable by 
+        Tensorflow's Keras API. IM NOT SURE ABOUT THIS THOUGH! If the original
+        ".data-00000-of-00001" file is needed please lmk I have it on my computer :)
+           -the file is a 336 mb file but if it needs to be able to run locally on
+            an arduino or smthng like that, tensorflow has an api that can 
+            compress/convert the algorithm to a smaller file for TinyML.
+            
+  2) linearfilters-runfile.py:
+     a series of linear filters using the Pillow image processing library
+     that denoise, smooth, blur, and sharpen the input images
+     (not necessarily in that order).
+     -> 1-pillow-linearfilters.ipynb
+        this is a notebook that has training/testing data for the linear filters
+
+Exported files:
+  1) the file "denoised32-32algo" includes 2 files:
+    -downscaled: contains the original images downscaled and resized to be 32x32 pixels
+    -output: the images output by the autoencoder 
+  2) the file "denoisedpil" includes output/denoised images from a series of linear filters.
+
+NOTE: the autoencoder is a PROOF-OF-CONCEPT ONLY!!! 
+reason: The autoencoder was trained on images that are 32x32 pixels. These 
+images are far too small and result in a huge quality loss when fed to the
+algorithm. In order to actually use an autoencoder, a new algorithm would
+have to be trained that accepts images of a higher dimensionality.
+  -> better yet, have the new algorithm that is trained accept images that are
+     size-equivalent to the images that will be used on the cubesat. This way
+     no pre-processing of the images will have to be done, and the images can be
+         fed directly to the autoencoder.
